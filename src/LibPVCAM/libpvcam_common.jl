@@ -1,45 +1,4 @@
 
-#const PV_PTR_DECL = (*)
-#const FALSE = PV_FAIL
-#const TRUE = PV_OK
-const int8 = UInt8
-const uns8 = Cuchar
-const int16 = Int16
-const uns16 = UInt16
-const int32 = Cint
-const uns32 = UInt32
-const flt32 = Cfloat
-const flt64 = Cdouble
-const ulong64 = Culonglong
-const long64 = Clonglong
-
-const void_ptr = Ptr{Cvoid}
-const void_ptr_ptr = Ptr{Ptr{Cvoid}}
-const UInt16_ptr = Ptr{UInt16}
-const char_ptr = Cstring
-const int8_ptr = Ptr{int8}
-const uns8_ptr = Ptr{uns8}
-const int16_ptr = Ptr{int16}
-const uns16_ptr = Ptr{uns16}
-const int32_ptr = Ptr{int32}
-const uns32_ptr = Ptr{uns32}
-const flt32_ptr = Ptr{flt32}
-const flt64_ptr = Ptr{flt64}
-const ulong64_ptr = Ptr{ulong64}
-const long64_ptr = Ptr{long64}
-const UInt16_const_ptr = Ptr{UInt16}
-const char_const_ptr = Cstring
-const int8_const_ptr = Ptr{int8}
-const uns8_const_ptr = Ptr{uns8}
-const int16_const_ptr = Ptr{int16}
-const uns16_const_ptr = Ptr{uns16}
-const int32_const_ptr = Ptr{int32}
-const uns32_const_ptr = Ptr{uns32}
-const flt32_const_ptr = Ptr{flt32}
-const flt64_const_ptr = Ptr{flt64}
-const ulong64_const_ptr = Ptr{ulong64}
-const long64_const_ptr = Ptr{long64}
-
 const PVCAM_LIB_VERSION_MAJOR = 2
 const MAX_CAM = 16
 const CAM_NAME_LEN = 32
@@ -57,16 +16,6 @@ const MAX_CAM_SYSTEMS_INFO_LEN = 1024
 const PP_MAX_PARAMETERS_PER_FEATURE = 10
 const PL_MD_FRAME_SIGNATURE = 5328208
 const PL_MD_EXT_TAGS_MAX_SUPPORTED = 255
-
-# MS16_BYTE ( two_byte_value ) ( ( uns8 ) ( ( ( uns16 ) ( two_byte_value ) >> 8 ) & 0xFF ) )
-# LS16_BYTE ( two_byte_value ) ( ( uns8 ) ( ( ( uns16 ) ( two_byte_value ) >> 0 ) & 0xFF ) )
-# MS32_BYTE ( four_byte_value ) ( ( uns8 ) ( ( ( uns32 ) ( four_byte_value ) >> 24 ) & 0xFF ) )
-# MH32_BYTE ( four_byte_value ) ( ( uns8 ) ( ( ( uns32 ) ( four_byte_value ) >> 16 ) & 0xFF ) )
-# ML32_BYTE ( four_byte_value ) ( ( uns8 ) ( ( ( uns32 ) ( four_byte_value ) >> 8 ) & 0xFF ) )
-# LS32_BYTE ( four_byte_value ) ( ( uns8 ) ( ( ( uns32 ) ( four_byte_value ) >> 0 ) & 0xFF ) )
-# VAL_UNS16 ( ms_byte , ls_byte ) ( ( ( uns16 ) ( ( uns8 ) ( ms_byte ) ) << 8 ) | ( ( uns16 ) ( ( uns8 ) ( ls_byte ) ) << 0 ) )
-# VAL_UNS32 ( ms_byte , mh_byte , ml_byte , ls_byte ) ( ( ( uns32 ) ( ( uns8 ) ( ms_byte ) ) << 24 ) | ( ( uns32 ) ( ( uns8 ) ( mh_byte ) ) << 16 ) | ( ( uns32 ) ( ( uns8 ) ( ml_byte ) ) << 8 ) | ( ( uns32 ) ( ( uns8 ) ( ls_byte ) ) << 0 ) )
-# VAL_INT64 ( b0 , b1 , b2 , b3 , b4 , b5 , b6 , b7 ) ( ( ( long64 ) ( ( uns8 ) ( b0 ) ) << 56 ) | ( ( long64 ) ( ( uns8 ) ( b1 ) ) << 48 ) | ( ( long64 ) ( ( uns8 ) ( b2 ) ) << 40 ) | ( ( long64 ) ( ( uns8 ) ( b3 ) ) << 32 ) | ( ( long64 ) ( ( uns8 ) ( b4 ) ) << 24 ) | ( ( long64 ) ( ( uns8 ) ( b5 ) ) << 16 ) | ( ( long64 ) ( ( uns8 ) ( b6 ) ) << 8 ) | ( ( long64 ) ( ( uns8 ) ( b7 ) ) << 0 ) )
 
 const TYPE_INT16 = 1
 const TYPE_INT32 = 2
@@ -89,122 +38,118 @@ const CLASS0 = 0
 const CLASS2 = 2
 const CLASS3 = 3
 
-# PARAM_DD_INFO_LENGTH ( ( CLASS0 << 16 ) + ( TYPE_INT16 << 24 ) + 1 )
-# PARAM_DD_VERSION ( ( CLASS0 << 16 ) + ( TYPE_UNS16 << 24 ) + 2 )
-# PARAM_DD_RETRIES ( ( CLASS0 << 16 ) + ( TYPE_UNS16 << 24 ) + 3 )
-# PARAM_DD_TIMEOUT ( ( CLASS0 << 16 ) + ( TYPE_UNS16 << 24 ) + 4 )
-# PARAM_DD_INFO ( ( CLASS0 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 5 )
-# PARAM_CAM_INTERFACE_TYPE ( ( CLASS0 << 16 ) + ( TYPE_ENUM << 24 ) + 10 )
-# PARAM_CAM_INTERFACE_MODE ( ( CLASS0 << 16 ) + ( TYPE_ENUM << 24 ) + 11 )
-# PARAM_ADC_OFFSET ( ( CLASS2 << 16 ) + ( TYPE_INT16 << 24 ) + 195 )
-# PARAM_CHIP_NAME ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 129 )
-# PARAM_SYSTEM_NAME ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 130 )
-# PARAM_VENDOR_NAME ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 131 )
-# PARAM_PRODUCT_NAME ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 132 )
-# PARAM_CAMERA_PART_NUMBER ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 133 )
-# PARAM_COOLING_MODE ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 214 )
-# PARAM_PREAMP_DELAY ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 502 )
-# PARAM_COLOR_MODE ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 504 )
-# PARAM_MPP_CAPABLE ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 224 )
-# PARAM_PREAMP_OFF_CONTROL ( ( CLASS2 << 16 ) + ( TYPE_UNS32 << 24 ) + 507 )
-# PARAM_PREMASK ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 53 )
-# PARAM_PRESCAN ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 55 )
-# PARAM_POSTMASK ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 54 )
-# PARAM_POSTSCAN ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 56 )
-# PARAM_PIX_PAR_DIST ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 500 )
-# PARAM_PIX_PAR_SIZE ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 63 )
-# PARAM_PIX_SER_DIST ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 501 )
-# PARAM_PIX_SER_SIZE ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 62 )
-# PARAM_SUMMING_WELL ( ( CLASS2 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 505 )
-# PARAM_FWELL_CAPACITY ( ( CLASS2 << 16 ) + ( TYPE_UNS32 << 24 ) + 506 )
-# PARAM_PAR_SIZE ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 57 )
-# PARAM_SER_SIZE ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 58 )
-# PARAM_ACCUM_CAPABLE ( ( CLASS2 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 538 )
-# PARAM_FLASH_DWNLD_CAPABLE ( ( CLASS2 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 539 )
-# PARAM_READOUT_TIME ( ( CLASS2 << 16 ) + ( TYPE_FLT64 << 24 ) + 179 )
-# PARAM_CLEARING_TIME ( ( CLASS2 << 16 ) + ( TYPE_INT64 << 24 ) + 180 )
-# PARAM_POST_TRIGGER_DELAY ( ( CLASS2 << 16 ) + ( TYPE_INT64 << 24 ) + 181 )
-# PARAM_PRE_TRIGGER_DELAY ( ( CLASS2 << 16 ) + ( TYPE_INT64 << 24 ) + 182 )
-# PARAM_CLEAR_CYCLES ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 97 )
-# PARAM_CLEAR_MODE ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 523 )
-# PARAM_FRAME_CAPABLE ( ( CLASS2 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 509 )
-# PARAM_PMODE ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 524 )
-# PARAM_TEMP ( ( CLASS2 << 16 ) + ( TYPE_INT16 << 24 ) + 525 )
-# PARAM_TEMP_SETPOINT ( ( CLASS2 << 16 ) + ( TYPE_INT16 << 24 ) + 526 )
-# PARAM_CAM_FW_VERSION ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 532 )
-# PARAM_HEAD_SER_NUM_ALPHA ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 533 )
-# PARAM_PCI_FW_VERSION ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 534 )
-# PARAM_FAN_SPEED_SETPOINT ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 710 )
-# PARAM_CAM_SYSTEMS_INFO ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 536 )
-# PARAM_EXPOSURE_MODE ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 535 )
-# PARAM_EXPOSE_OUT_MODE ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 560 )
-# PARAM_BIT_DEPTH ( ( CLASS2 << 16 ) + ( TYPE_INT16 << 24 ) + 511 )
-# PARAM_IMAGE_FORMAT ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 248 )
-# PARAM_IMAGE_COMPRESSION ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 249 )
-# PARAM_SCAN_MODE ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 250 )
-# PARAM_SCAN_DIRECTION ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 251 )
-# PARAM_SCAN_DIRECTION_RESET ( ( CLASS3 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 252 )
-# PARAM_SCAN_LINE_DELAY ( ( CLASS3 << 16 ) + ( TYPE_UNS16 << 24 ) + 253 )
-# PARAM_SCAN_LINE_TIME ( ( CLASS3 << 16 ) + ( TYPE_INT64 << 24 ) + 254 )
-# PARAM_SCAN_WIDTH ( ( CLASS3 << 16 ) + ( TYPE_UNS16 << 24 ) + 255 )
-# PARAM_GAIN_INDEX ( ( CLASS2 << 16 ) + ( TYPE_INT16 << 24 ) + 512 )
-# PARAM_SPDTAB_INDEX ( ( CLASS2 << 16 ) + ( TYPE_INT16 << 24 ) + 513 )
-# PARAM_GAIN_NAME ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 514 )
-# PARAM_READOUT_PORT ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 247 )
-# PARAM_PIX_TIME ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 516 )
-# PARAM_SHTR_CLOSE_DELAY ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 519 )
-# PARAM_SHTR_OPEN_DELAY ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 520 )
-# PARAM_SHTR_OPEN_MODE ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 521 )
-# PARAM_SHTR_STATUS ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 522 )
-# PARAM_IO_ADDR ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 527 )
-# PARAM_IO_TYPE ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 528 )
-# PARAM_IO_DIRECTION ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 529 )
-# PARAM_IO_STATE ( ( CLASS2 << 16 ) + ( TYPE_FLT64 << 24 ) + 530 )
-# PARAM_IO_BITDEPTH ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 531 )
-# PARAM_GAIN_MULT_FACTOR ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 537 )
-# PARAM_GAIN_MULT_ENABLE ( ( CLASS2 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 541 )
-# PARAM_PP_FEAT_NAME ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 542 )
-# PARAM_PP_INDEX ( ( CLASS2 << 16 ) + ( TYPE_INT16 << 24 ) + 543 )
-# PARAM_ACTUAL_GAIN ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 544 )
-# PARAM_PP_PARAM_INDEX ( ( CLASS2 << 16 ) + ( TYPE_INT16 << 24 ) + 545 )
-# PARAM_PP_PARAM_NAME ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 546 )
-# PARAM_PP_PARAM ( ( CLASS2 << 16 ) + ( TYPE_UNS32 << 24 ) + 547 )
-# PARAM_READ_NOISE ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 548 )
-# PARAM_PP_FEAT_ID ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 549 )
-# PARAM_PP_PARAM_ID ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 550 )
-# PARAM_SMART_STREAM_MODE_ENABLED ( ( CLASS2 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 700 )
-# PARAM_SMART_STREAM_MODE ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 701 )
-# PARAM_SMART_STREAM_EXP_PARAMS ( ( CLASS2 << 16 ) + ( TYPE_VOID_PTR << 24 ) + 702 )
-# PARAM_SMART_STREAM_DLY_PARAMS ( ( CLASS2 << 16 ) + ( TYPE_VOID_PTR << 24 ) + 703 )
-# PARAM_EXP_TIME ( ( CLASS3 << 16 ) + ( TYPE_UNS16 << 24 ) + 1 )
-# PARAM_EXP_RES ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 2 )
-# PARAM_EXP_RES_INDEX ( ( CLASS3 << 16 ) + ( TYPE_UNS16 << 24 ) + 4 )
-# PARAM_EXPOSURE_TIME ( ( CLASS3 << 16 ) + ( TYPE_UNS64 << 24 ) + 8 )
-# PARAM_BOF_EOF_ENABLE ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 5 )
-# PARAM_BOF_EOF_COUNT ( ( CLASS3 << 16 ) + ( TYPE_UNS32 << 24 ) + 6 )
-# PARAM_BOF_EOF_CLR ( ( CLASS3 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 7 )
-# PARAM_CIRC_BUFFER ( ( CLASS3 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 299 )
-# PARAM_FRAME_BUFFER_SIZE ( ( CLASS3 << 16 ) + ( TYPE_UNS64 << 24 ) + 300 )
-# PARAM_BINNING_SER ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 165 )
-# PARAM_BINNING_PAR ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 166 )
-# PARAM_METADATA_ENABLED ( ( CLASS3 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 168 )
-# PARAM_ROI_COUNT ( ( CLASS3 << 16 ) + ( TYPE_UNS16 << 24 ) + 169 )
-# PARAM_CENTROIDS_ENABLED ( ( CLASS3 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 170 )
-# PARAM_CENTROIDS_RADIUS ( ( CLASS3 << 16 ) + ( TYPE_UNS16 << 24 ) + 171 )
-# PARAM_CENTROIDS_COUNT ( ( CLASS3 << 16 ) + ( TYPE_UNS16 << 24 ) + 172 )
-# PARAM_CENTROIDS_MODE ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 173 )
-# PARAM_CENTROIDS_BG_COUNT ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 174 )
-# PARAM_CENTROIDS_THRESHOLD ( ( CLASS3 << 16 ) + ( TYPE_UNS32 << 24 ) + 175 )
-# PARAM_TRIGTAB_SIGNAL ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 180 )
-# PARAM_LAST_MUXED_SIGNAL ( ( CLASS3 << 16 ) + ( TYPE_UNS8 << 24 ) + 181 )
-# PARAM_FRAME_DELIVERY_MODE ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 400 )
+const PARAM_DD_INFO_LENGTH = ( ( CLASS0 << 16 ) + ( TYPE_INT16 << 24 ) + 1 )
+const PARAM_DD_VERSION = ( ( CLASS0 << 16 ) + ( TYPE_UNS16 << 24 ) + 2 )
+const PARAM_DD_RETRIES = ( ( CLASS0 << 16 ) + ( TYPE_UNS16 << 24 ) + 3 )
+const PARAM_DD_TIMEOUT = ( ( CLASS0 << 16 ) + ( TYPE_UNS16 << 24 ) + 4 )
+const PARAM_DD_INFO = ( ( CLASS0 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 5 )
+const PARAM_CAM_INTERFACE_TYPE = ( ( CLASS0 << 16 ) + ( TYPE_ENUM << 24 ) + 10 )
+const PARAM_CAM_INTERFACE_MODE = ( ( CLASS0 << 16 ) + ( TYPE_ENUM << 24 ) + 11 )
+const PARAM_ADC_OFFSET = ( ( CLASS2 << 16 ) + ( TYPE_INT16 << 24 ) + 195 )
+const PARAM_CHIP_NAME = ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 129 )
+const PARAM_SYSTEM_NAME = ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 130 )
+const PARAM_VENDOR_NAME = ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 131 )
+const PARAM_PRODUCT_NAME = ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 132 )
+const PARAM_CAMERA_PART_NUMBER = ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 133 )
+const PARAM_COOLING_MODE = ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 214 )
+const PARAM_PREAMP_DELAY = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 502 )
+const PARAM_COLOR_MODE = ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 504 )
+const PARAM_MPP_CAPABLE = ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 224 )
+const PARAM_PREAMP_OFF_CONTROL = ( ( CLASS2 << 16 ) + ( TYPE_UNS32 << 24 ) + 507 )
+const PARAM_PREMASK = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 53 )
+const PARAM_PRESCAN = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 55 )
+const PARAM_POSTMASK = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 54 )
+const PARAM_POSTSCAN = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 56 )
+const PARAM_PIX_PAR_DIST = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 500 )
+const PARAM_PIX_PAR_SIZE = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 63 )
+const PARAM_PIX_SER_DIST = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 501 )
+const PARAM_PIX_SER_SIZE = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 62 )
+const PARAM_SUMMING_WELL = ( ( CLASS2 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 505 )
+const PARAM_FWELL_CAPACITY = ( ( CLASS2 << 16 ) + ( TYPE_UNS32 << 24 ) + 506 )
+const PARAM_PAR_SIZE = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 57 )
+const PARAM_SER_SIZE = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 58 )
+const PARAM_ACCUM_CAPABLE = ( ( CLASS2 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 538 )
+const PARAM_FLASH_DWNLD_CAPABLE = ( ( CLASS2 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 539 )
+const PARAM_READOUT_TIME = ( ( CLASS2 << 16 ) + ( TYPE_FLT64 << 24 ) + 179 )
+const PARAM_CLEARING_TIME = ( ( CLASS2 << 16 ) + ( TYPE_INT64 << 24 ) + 180 )
+const PARAM_POST_TRIGGER_DELAY = ( ( CLASS2 << 16 ) + ( TYPE_INT64 << 24 ) + 181 )
+const PARAM_PRE_TRIGGER_DELAY = ( ( CLASS2 << 16 ) + ( TYPE_INT64 << 24 ) + 182 )
+const PARAM_CLEAR_CYCLES = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 97 )
+const PARAM_CLEAR_MODE = ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 523 )
+const PARAM_FRAME_CAPABLE = ( ( CLASS2 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 509 )
+const PARAM_PMODE = ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 524 )
+const PARAM_TEMP = ( ( CLASS2 << 16 ) + ( TYPE_INT16 << 24 ) + 525 )
+const PARAM_TEMP_SETPOINT = ( ( CLASS2 << 16 ) + ( TYPE_INT16 << 24 ) + 526 )
+const PARAM_CAM_FW_VERSION = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 532 )
+const PARAM_HEAD_SER_NUM_ALPHA = ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 533 )
+const PARAM_PCI_FW_VERSION = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 534 )
+const PARAM_FAN_SPEED_SETPOINT = ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 710 )
+const PARAM_CAM_SYSTEMS_INFO = ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 536 )
+const PARAM_EXPOSURE_MODE = ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 535 )
+const PARAM_EXPOSE_OUT_MODE = ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 560 )
+const PARAM_BIT_DEPTH = ( ( CLASS2 << 16 ) + ( TYPE_INT16 << 24 ) + 511 )
+const PARAM_IMAGE_FORMAT = ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 248 )
+const PARAM_IMAGE_COMPRESSION = ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 249 )
+const PARAM_SCAN_MODE = ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 250 )
+const PARAM_SCAN_DIRECTION = ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 251 )
+const PARAM_SCAN_DIRECTION_RESET = ( ( CLASS3 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 252 )
+const PARAM_SCAN_LINE_DELAY = ( ( CLASS3 << 16 ) + ( TYPE_UNS16 << 24 ) + 253 )
+const PARAM_SCAN_LINE_TIME = ( ( CLASS3 << 16 ) + ( TYPE_INT64 << 24 ) + 254 )
+const PARAM_SCAN_WIDTH = ( ( CLASS3 << 16 ) + ( TYPE_UNS16 << 24 ) + 255 )
+const PARAM_GAIN_INDEX = ( ( CLASS2 << 16 ) + ( TYPE_INT16 << 24 ) + 512 )
+const PARAM_SPDTAB_INDEX = ( ( CLASS2 << 16 ) + ( TYPE_INT16 << 24 ) + 513 )
+const PARAM_GAIN_NAME = ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 514 )
+const PARAM_READOUT_PORT = ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 247 )
+const PARAM_PIX_TIME = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 516 )
+const PARAM_SHTR_CLOSE_DELAY = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 519 )
+const PARAM_SHTR_OPEN_DELAY = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 520 )
+const PARAM_SHTR_OPEN_MODE = ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 521 )
+const PARAM_SHTR_STATUS = ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 522 )
+const PARAM_IO_ADDR = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 527 )
+const PARAM_IO_TYPE = ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 528 )
+const PARAM_IO_DIRECTION = ( ( CLASS2 << 16 ) + ( TYPE_ENUM << 24 ) + 529 )
+const PARAM_IO_STATE = ( ( CLASS2 << 16 ) + ( TYPE_FLT64 << 24 ) + 530 )
+const PARAM_IO_BITDEPTH = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 531 )
+const PARAM_GAIN_MULT_FACTOR = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 537 )
+const PARAM_GAIN_MULT_ENABLE = ( ( CLASS2 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 541 )
+const PARAM_PP_FEAT_NAME = ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 542 )
+const PARAM_PP_INDEX = ( ( CLASS2 << 16 ) + ( TYPE_INT16 << 24 ) + 543 )
+const PARAM_ACTUAL_GAIN = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 544 )
+const PARAM_PP_PARAM_INDEX = ( ( CLASS2 << 16 ) + ( TYPE_INT16 << 24 ) + 545 )
+const PARAM_PP_PARAM_NAME = ( ( CLASS2 << 16 ) + ( TYPE_CHAR_PTR << 24 ) + 546 )
+const PARAM_PP_PARAM = ( ( CLASS2 << 16 ) + ( TYPE_UNS32 << 24 ) + 547 )
+const PARAM_READ_NOISE = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 548 )
+const PARAM_PP_FEAT_ID = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 549 )
+const PARAM_PP_PARAM_ID = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 550 )
+const PARAM_SMART_STREAM_MODE_ENABLED = ( ( CLASS2 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 700 )
+const PARAM_SMART_STREAM_MODE = ( ( CLASS2 << 16 ) + ( TYPE_UNS16 << 24 ) + 701 )
+const PARAM_SMART_STREAM_EXP_PARAMS = ( ( CLASS2 << 16 ) + ( TYPE_VOID_PTR << 24 ) + 702 )
+const PARAM_SMART_STREAM_DLY_PARAMS = ( ( CLASS2 << 16 ) + ( TYPE_VOID_PTR << 24 ) + 703 )
+const PARAM_EXP_TIME = ( ( CLASS3 << 16 ) + ( TYPE_UNS16 << 24 ) + 1 )
+const PARAM_EXP_RES = ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 2 )
+const PARAM_EXP_RES_INDEX = ( ( CLASS3 << 16 ) + ( TYPE_UNS16 << 24 ) + 4 )
+const PARAM_EXPOSURE_TIME = ( ( CLASS3 << 16 ) + ( TYPE_UNS64 << 24 ) + 8 )
+const PARAM_BOF_EOF_ENABLE = ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 5 )
+const PARAM_BOF_EOF_COUNT = ( ( CLASS3 << 16 ) + ( TYPE_UNS32 << 24 ) + 6 )
+const PARAM_BOF_EOF_CLR = ( ( CLASS3 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 7 )
+const PARAM_CIRC_BUFFER = ( ( CLASS3 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 299 )
+const PARAM_FRAME_BUFFER_SIZE = ( ( CLASS3 << 16 ) + ( TYPE_UNS64 << 24 ) + 300 )
+const PARAM_BINNING_SER = ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 165 )
+const PARAM_BINNING_PAR = ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 166 )
+const PARAM_METADATA_ENABLED = ( ( CLASS3 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 168 )
+const PARAM_ROI_COUNT = ( ( CLASS3 << 16 ) + ( TYPE_UNS16 << 24 ) + 169 )
+const PARAM_CENTROIDS_ENABLED = ( ( CLASS3 << 16 ) + ( TYPE_BOOLEAN << 24 ) + 170 )
+const PARAM_CENTROIDS_RADIUS = ( ( CLASS3 << 16 ) + ( TYPE_UNS16 << 24 ) + 171 )
+const PARAM_CENTROIDS_COUNT = ( ( CLASS3 << 16 ) + ( TYPE_UNS16 << 24 ) + 172 )
+const PARAM_CENTROIDS_MODE = ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 173 )
+const PARAM_CENTROIDS_BG_COUNT = ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 174 )
+const PARAM_CENTROIDS_THRESHOLD = ( ( CLASS3 << 16 ) + ( TYPE_UNS32 << 24 ) + 175 )
+const PARAM_TRIGTAB_SIGNAL = ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 180 )
+const PARAM_LAST_MUXED_SIGNAL = ( ( CLASS3 << 16 ) + ( TYPE_UNS8 << 24 ) + 181 )
+const PARAM_FRAME_DELIVERY_MODE = ( ( CLASS3 << 16 ) + ( TYPE_ENUM << 24 ) + 400 )
 
-#const PVCAM_FRAME_INFO_GUID = _TAG_PVCAM_FRAME_INFO_GUID
-#const FRAME_INFO = _TAG_FRAME_INFO
-#
 
-# temporary placeholder for script hook type (looks like a callback function
-# pointer)
+# temporary placeholder for script hook callback pointer
 pm_script_hook = Ptr{Cvoid}
 
 struct PVCAM_FRAME_INFO_GUID
@@ -218,9 +163,9 @@ struct FRAME_INFO
     FrameInfoGUID::PVCAM_FRAME_INFO_GUID
     hCam::Int16
     FrameNr::Int32
-    TimeStampe::long64
+    TimeStampe::Int64
     ReadouTime::Int32
-    TimeStampBOF::long64
+    TimeStampBOF::Int64
 end
 
 @cenum PL_OPEN_MODES::UInt32 begin
@@ -494,8 +439,8 @@ end
 
 
 struct smart_stream_type
-    entries::uns16
-    params::Ptr{uns32}
+    entries::UInt16
+    params::Ptr{UInt32}
 end
 
 @cenum PL_SMT_MODES::UInt32 begin
@@ -567,18 +512,18 @@ end
 
 
 struct rgn_type
-    s1::uns16
-    s2::uns16
-    sbin::uns16
-    p1::uns16
-    p2::uns16
-    pbin::uns16
+    s1::UInt16
+    s2::UInt16
+    sbin::UInt16
+    p1::UInt16
+    p2::UInt16
+    pbin::UInt16
 end
 
 struct io_struct
-    io_port::uns16
-    io_type::uns32
-    state::flt64
+    io_port::UInt16
+    io_type::UInt32
+    state::Cdouble
     next::Ptr{io_struct}
 end
 
@@ -598,25 +543,25 @@ struct io_list
 end
 
 struct active_camera_type
-    shutter_close_delay::uns16
-    shutter_open_delay::uns16
-    rows::uns16
-    cols::uns16
-    prescan::uns16
-    postscan::uns16
-    premask::uns16
-    postmask::uns16
-    preflash::uns16
-    clear_count::uns16
-    preamp_delay::uns16
+    shutter_close_delay::UInt16
+    shutter_open_delay::UInt16
+    rows::UInt16
+    cols::UInt16
+    prescan::UInt16
+    postscan::UInt16
+    premask::UInt16
+    postmask::UInt16
+    preflash::UInt16
+    clear_count::UInt16
+    preamp_delay::UInt16
     mpp_selectable::UInt16
     frame_selectable::UInt16
-    do_clear::int16
-    open_shutter::int16
+    do_clear::Int16
+    open_shutter::Int16
     mpp_mode::UInt16
     frame_transfer::UInt16
     alt_mode::UInt16
-    exp_res::uns32
+    exp_res::UInt32
     io_hdr::Ptr{io_list}
 end
 
@@ -642,34 +587,34 @@ end
 
 
 struct md_frame_header
-    signature::uns32
-    version::uns8
-    frameNr::uns32
-    roiCount::uns16
-    timestampBOF::uns32
-    timestampEOF::uns32
-    timestampResNs::uns32
-    exposureTime::uns32
-    exposureTimeResNs::uns32
-    roiTimestampResNs::uns32
-    bitDepth::uns8
-    colorMask::uns8
-    flags::uns8
-    extendedMdSize::uns16
-    imageFormat::uns8
-    imageCompression::uns8
-    _reserved::NTuple{6, uns8}
+    signature::UInt32
+    version::UInt8
+    frameNr::UInt32
+    roiCount::UInt16
+    timestampBOF::UInt32
+    timestampEOF::UInt32
+    timestampResNs::UInt32
+    exposureTime::UInt32
+    exposureTimeResNs::UInt32
+    roiTimestampResNs::UInt32
+    bitDepth::UInt8
+    colorMask::UInt8
+    flags::UInt8
+    extendedMdSize::UInt16
+    imageFormat::UInt8
+    imageCompression::UInt8
+    _reserved::NTuple{6, UInt8}
 end
 
 struct md_frame_roi_header
-    roiNr::uns16
-    timestampBOR::uns32
-    timestampEOR::uns32
+    roiNr::UInt16
+    timestampBOR::UInt32
+    timestampEOR::UInt32
     roi::rgn_type
-    flags::uns8
-    extendedMdSize::uns16
-    roiDataSize::uns32
-    _reserved::NTuple{3, uns8}
+    flags::UInt8
+    extendedMdSize::UInt16
+    roiDataSize::UInt32
+    _reserved::NTuple{3, UInt8}
 end
 
 @cenum PL_MD_EXT_TAGS::UInt32 begin
@@ -682,8 +627,8 @@ end
 
 struct md_ext_item_info
     tag::PL_MD_EXT_TAGS
-    type::uns16
-    size::uns16
+    type::UInt16
+    size::UInt16
     name::Cstring
 end
 
@@ -695,38 +640,29 @@ end
 struct md_ext_item_collection
     list::NTuple{255, md_ext_item}
     map::NTuple{255, Ptr{md_ext_item}}
-    count::uns16
+    count::UInt16
 end
 
 struct md_frame_roi
     header::Ptr{md_frame_roi_header}
     data::Ptr{Cvoid}
-    dataSize::uns32
+    dataSize::UInt32
     extMdData::Ptr{Cvoid}
-    extMdDataSize::uns16
+    extMdDataSize::UInt16
 end
 
 struct md_frame
     header::Ptr{md_frame_header}
     extMdData::Ptr{Cvoid}
-    extMdDataSize::uns16
+    extMdDataSize::UInt16
     impliedRoi::rgn_type
     roiArray::Ptr{md_frame_roi}
-    roiCapacity::uns16
-    roiCount::uns16
+    roiCapacity::UInt16
+    roiCount::UInt16
 end
 
 const PPVCAM_FRAME_INFO_GUID = Ptr{PVCAM_FRAME_INFO_GUID}
 const PFRAME_INFO = Ptr{FRAME_INFO}
-const smart_stream_type_ptr = Ptr{smart_stream_type}
-const rgn_ptr = Ptr{rgn_type}
-const rgn_const_ptr = Ptr{rgn_type}
-const io_entry_ptr = Ptr{io_entry}
-const io_list_ptr = Ptr{io_list}
-const io_list_ptr_ptr = Ptr{Ptr{io_list}}
-const active_camera_ptr = Ptr{active_camera_type}
-
-# Skipping Typedef: CXType_FunctionProto pm_script_hook
 
 const PL_CALLBACK_SIG_LEGACY = Ptr{Cvoid}
 const PL_CALLBACK_SIG_EX = Ptr{Cvoid}
