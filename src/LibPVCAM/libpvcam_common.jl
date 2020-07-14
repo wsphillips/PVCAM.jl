@@ -2,7 +2,6 @@
 #const PV_PTR_DECL = (*)
 #const FALSE = PV_FAIL
 #const TRUE = PV_OK
-const rs_bool = UInt16
 const int8 = UInt8
 const uns8 = Cuchar
 const int16 = Int16
@@ -16,7 +15,7 @@ const long64 = Clonglong
 
 const void_ptr = Ptr{Cvoid}
 const void_ptr_ptr = Ptr{Ptr{Cvoid}}
-const rs_bool_ptr = Ptr{rs_bool}
+const UInt16_ptr = Ptr{UInt16}
 const char_ptr = Cstring
 const int8_ptr = Ptr{int8}
 const uns8_ptr = Ptr{uns8}
@@ -28,7 +27,7 @@ const flt32_ptr = Ptr{flt32}
 const flt64_ptr = Ptr{flt64}
 const ulong64_ptr = Ptr{ulong64}
 const long64_ptr = Ptr{long64}
-const rs_bool_const_ptr = Ptr{rs_bool}
+const UInt16_const_ptr = Ptr{UInt16}
 const char_const_ptr = Cstring
 const int8_const_ptr = Ptr{int8}
 const uns8_const_ptr = Ptr{uns8}
@@ -610,13 +609,13 @@ struct active_camera_type
     preflash::uns16
     clear_count::uns16
     preamp_delay::uns16
-    mpp_selectable::rs_bool
-    frame_selectable::rs_bool
+    mpp_selectable::UInt16
+    frame_selectable::UInt16
     do_clear::int16
     open_shutter::int16
-    mpp_mode::rs_bool
-    frame_transfer::rs_bool
-    alt_mode::rs_bool
+    mpp_mode::UInt16
+    frame_transfer::UInt16
+    alt_mode::UInt16
     exp_res::uns32
     io_hdr::Ptr{io_list}
 end
