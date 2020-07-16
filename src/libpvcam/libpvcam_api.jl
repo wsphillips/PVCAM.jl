@@ -1,168 +1,193 @@
 
-function pl_pvcam_get_ver(pvcam_version::Ref{UInt16})
+function pvcam_get_ver(pvcam_version::Ref{UInt16})
     ccall((:pl_pvcam_get_ver, :libpvcam), UInt16, (Ref{UInt16},), pvcam_version)
 end
 
-function pl_pvcam_init()
+function pvcam_init()
     ccall((:pl_pvcam_init, :libpvcam), UInt16, ())
 end
 
-function pl_pvcam_uninit()
+function pvcam_uninit()
     ccall((:pl_pvcam_uninit, :libpvcam), UInt16, ())
 end
 
-function pl_cam_check(hcam::Int16)
+function cam_check(hcam::Int16)
     ccall((:pl_cam_check, :libpvcam), UInt16, (Int16,), hcam)
 end
 
-function pl_cam_close(hcam::Int16)
+function cam_close(hcam::Int16)
     ccall((:pl_cam_close, :libpvcam), UInt16, (Int16,), hcam)
 end
 
-function pl_cam_get_name(cam_num::Int16, camera_name)
-    ccall((:pl_cam_get_name, :libpvcam), UInt16, (Int16, Cstring), cam_num, camera_name)
+function cam_get_name(cam_num::Integer, camera_name::Vector{UInt8})
+    ccall((:pl_cam_get_name, :libpvcam), UInt16, (Int16, Ref{UInt8}), cam_num, camera_name)
 end
 
-function pl_cam_get_total(totl_cams::Ref{Int16})
+function cam_get_total(totl_cams::Ref{Int16})
     ccall((:pl_cam_get_total, :libpvcam), UInt16, (Ref{Int16},), totl_cams)
 end
 
-function pl_cam_open(camera_name, hcam::Ref{Int16}, o_mode::Int16)
+function cam_open(camera_name, hcam::Ref{Int16}, o_mode::Int16)
     ccall((:pl_cam_open, :libpvcam), UInt16, (Cstring, Ref{Int16}, Int16), camera_name, hcam, o_mode)
 end
 
-function pl_cam_register_callback(hcam::Int16, callback_event::Cint, callback::Ref{Cvoid})
+function cam_register_callback(hcam::Int16, callback_event::Cint, callback::Ref{Cvoid})
     ccall((:pl_cam_register_callback, :libpvcam), UInt16, (Int16, Cint, Ref{Cvoid}), hcam, callback_event, callback)
 end
 
-function pl_cam_register_callback_ex(hcam::Int16, callback_event::Cint, callback::Ref{Cvoid}, context::Ref{Cvoid})
+function cam_register_callback_ex(hcam::Int16, callback_event::Cint, callback::Ref{Cvoid}, context::Ref{Cvoid})
     ccall((:pl_cam_register_callback_ex, :libpvcam), UInt16, (Int16, Cint, Ref{Cvoid}, Ref{Cvoid}), hcam, callback_event, callback, context)
 end
 
-function pl_cam_register_callback_ex2(hcam::Int16, callback_event::Cint, callback::Ref{Cvoid})
+function cam_register_callback_ex2(hcam::Int16, callback_event::Cint, callback::Ref{Cvoid})
     ccall((:pl_cam_register_callback_ex2, :libpvcam), UInt16, (Int16, Cint, Ref{Cvoid}), hcam, callback_event, callback)
 end
 
-function pl_cam_register_callback_ex3(hcam::Int16, callback_event::Cint, callback::Ref{Cvoid}, context::Ref{Cvoid})
+function cam_register_callback_ex3(hcam::Int16, callback_event::Cint, callback::Ref{Cvoid}, context::Ref{Cvoid})
     ccall((:pl_cam_register_callback_ex3, :libpvcam), UInt16, (Int16, Cint, Ref{Cvoid}, Ref{Cvoid}), hcam, callback_event, callback, context)
 end
 
-function pl_cam_deregister_callback(hcam::Int16, callback_event::Cint)
+function cam_deregister_callback(hcam::Int16, callback_event::Cint)
     ccall((:pl_cam_deregister_callback, :libpvcam), UInt16, (Int16, Cint), hcam, callback_event)
 end
 
-function pl_error_code()
+function error_code()
     ccall((:pl_error_code, :libpvcam), Int16, ())
 end
 
-function pl_error_message(err_code::Int16, msg)
+function error_message(err_code::Int16, msg)
     ccall((:pl_error_message, :libpvcam), UInt16, (Int16, Cstring), err_code, msg)
 end
 
-function pl_get_param(hcam::Int16, param_id::UInt32, param_attribute::Int16, param_value::Ref{Cvoid})
+function get_param(hcam::Int16, param_id::UInt32, param_attribute::Int16, param_value::Ref{Cvoid})
     ccall((:pl_get_param, :libpvcam), UInt16, (Int16, UInt32, Int16, Ref{Cvoid}), hcam, param_id, param_attribute, param_value)
 end
 
-function pl_set_param(hcam::Int16, param_id::UInt32, param_value::Ref{Cvoid})
+function set_param(hcam::Int16, param_id::UInt32, param_value::Ref{Cvoid})
     ccall((:pl_set_param, :libpvcam), UInt16, (Int16, UInt32, Ref{Cvoid}), hcam, param_id, param_value)
 end
 
-function pl_get_enum_param(hcam::Int16, param_id::UInt32, index::UInt32, value::Ref{Cint}, desc, length::UInt32)
+function get_enum_param(hcam::Int16, param_id::UInt32, index::UInt32, value::Ref{Cint}, desc, length::UInt32)
     ccall((:pl_get_enum_param, :libpvcam), UInt16, (Int16, UInt32, UInt32, Ref{Cint}, Cstring, UInt32), hcam, param_id, index, value, desc, length)
 end
 
-function pl_enum_str_length(hcam::Int16, param_id::UInt32, index::UInt32, length::Ref{UInt32})
+function enum_str_length(hcam::Int16, param_id::UInt32, index::UInt32, length::Ref{UInt32})
     ccall((:pl_enum_str_length, :libpvcam), UInt16, (Int16, UInt32, UInt32, Ref{UInt32}), hcam, param_id, index, length)
 end
 
-function pl_pp_reset(hcam::Int16)
+function pp_reset(hcam::Int16)
     ccall((:pl_pp_reset, :libpvcam), UInt16, (Int16,), hcam)
 end
 
-function pl_create_smart_stream_struct(array::Ref{Ptr{smart_stream_type}}, entries::UInt16)
+function create_smart_stream_struct(array::Ref{Ptr{smart_stream_type}}, entries::UInt16)
     ccall((:pl_create_smart_stream_struct, :libpvcam), UInt16, (Ref{Ptr{smart_stream_type}}, UInt16), array, entries)
 end
 
-function pl_release_smart_stream_struct(array::Ref{Ptr{smart_stream_type}})
+function release_smart_stream_struct(array::Ref{Ptr{smart_stream_type}})
     ccall((:pl_release_smart_stream_struct, :libpvcam), UInt16, (Ref{Ptr{smart_stream_type}},), array)
 end
 
-function pl_create_frame_info_struct(new_frame::Ref{Ptr{FRAME_INFO}})
+function create_frame_info_struct(new_frame::Ref{Ptr{FRAME_INFO}})
     ccall((:pl_create_frame_info_struct, :libpvcam), UInt16, (Ref{Ptr{FRAME_INFO}},), new_frame)
 end
 
-function pl_release_frame_info_struct(frame_to_delete::Ref{FRAME_INFO})
+function release_frame_info_struct(frame_to_delete::Ref{FRAME_INFO})
     ccall((:pl_release_frame_info_struct, :libpvcam), UInt16, (Ref{FRAME_INFO},), frame_to_delete)
 end
 
-function pl_exp_setup_seq(hcam::Int16, exp_total::UInt16, rgn_total::UInt16, rgn_array::Ref{rgn_type}, exp_mode::Int16, exposure_time::UInt32, exp_bytes::Ref{UInt32})
+function exp_setup_seq(hcam::Int16, exp_total::UInt16, rgn_total::UInt16, rgn_array::Ref{rgn_type}, exp_mode::Int16, exposure_time::UInt32, exp_bytes::Ref{UInt32})
     ccall((:pl_exp_setup_seq, :libpvcam), UInt16, (Int16, UInt16, UInt16, Ref{rgn_type}, Int16, UInt32, Ref{UInt32}), hcam, exp_total, rgn_total, rgn_array, exp_mode, exposure_time, exp_bytes)
 end
 
-function pl_exp_start_seq(hcam::Int16, pixel_stream::Ref{Cvoid})
-    ccall((:pl_exp_start_seq, :libpvcam), UInt16, (Int16, Ref{Cvoid}), hcam, pixel_stream)
+function exp_start_seq(hcam::Int16, pixel_stream::Vector{UInt16})
+    ccall((:pl_exp_start_seq, :libpvcam), UInt16, (Int16, Ref{UInt16}), hcam, pixel_stream)
 end
 
-function pl_exp_setup_cont(hcam::Int16, rgn_total::UInt16, rgn_array::Ref{rgn_type}, exp_mode::Int16, exposure_time::UInt32, exp_bytes::Ref{UInt32}, buffer_mode::Int16)
+function exp_setup_cont(hcam::Int16, rgn_total::UInt16, rgn_array::Vector{rgn_type}, exp_mode::Int16, exposure_time::UInt32, exp_bytes::Ref{UInt32}, buffer_mode::Int16)
     ccall((:pl_exp_setup_cont, :libpvcam), UInt16, (Int16, UInt16, Ref{rgn_type}, Int16, UInt32, Ref{UInt32}, Int16), hcam, rgn_total, rgn_array, exp_mode, exposure_time, exp_bytes, buffer_mode)
 end
 
-function pl_exp_start_cont(hcam::Int16, pixel_stream::Ref{Cvoid}, size::UInt32)
-    ccall((:pl_exp_start_cont, :libpvcam), UInt16, (Int16, Ref{Cvoid}, UInt32), hcam, pixel_stream, size)
+function exp_start_cont(hcam::Int16, pixel_stream::Vector{UInt16}, size::UInt32)
+    ccall((:pl_exp_start_cont, :libpvcam), UInt16, (Int16, Ref{UInt16}, UInt32), hcam, pixel_stream, size)
 end
 
-function pl_exp_check_status(hcam::Int16, status::Ref{Int16}, bytes_arrived::Ref{UInt32})
+function exp_check_status(hcam::Int16, status::Ref{Int16}, bytes_arrived::Ref{UInt32})
     ccall((:pl_exp_check_status, :libpvcam), UInt16, (Int16, Ref{Int16}, Ref{UInt32}), hcam, status, bytes_arrived)
 end
 
-function pl_exp_check_cont_status(hcam::Int16, status::Ref{Int16}, bytes_arrived::Ref{UInt32}, buffer_cnt::Ref{UInt32})
+function exp_check_cont_status(hcam::Int16, status::Ref{Int16}, bytes_arrived::Ref{UInt32}, buffer_cnt::Ref{UInt32})
     ccall((:pl_exp_check_cont_status, :libpvcam), UInt16, (Int16, Ref{Int16}, Ref{UInt32}, Ref{UInt32}), hcam, status, bytes_arrived, buffer_cnt)
 end
 
-function pl_exp_check_cont_status_ex(hcam::Int16, status::Ref{Int16}, byte_cnt::Ref{UInt32}, buffer_cnt::Ref{UInt32}, frame_info::Ref{FRAME_INFO})
+function exp_check_cont_status_ex(hcam::Int16, status::Ref{Int16}, byte_cnt::Ref{UInt32}, buffer_cnt::Ref{UInt32}, frame_info::Ref{FRAME_INFO})
     ccall((:pl_exp_check_cont_status_ex, :libpvcam), UInt16, (Int16, Ref{Int16}, Ref{UInt32}, Ref{UInt32}, Ref{FRAME_INFO}), hcam, status, byte_cnt, buffer_cnt, frame_info)
 end
 
-function pl_exp_get_latest_frame(hcam::Int16, frame::Ref{Ptr{Cvoid}})
-    ccall((:pl_exp_get_latest_frame, :libpvcam), UInt16, (Int16, Ref{Ptr{Cvoid}}), hcam, frame)
+function exp_get_latest_frame(hcam::Int16, frame::Ref{Ptr{UInt16}})
+    ccall((:pl_exp_get_latest_frame, :libpvcam), UInt16, (Int16, Ref{Ptr{UInt16}}), hcam, frame)
 end
 
-function pl_exp_get_latest_frame_ex(hcam::Int16, frame::Ref{Ptr{Cvoid}}, frame_info::Ref{FRAME_INFO})
-    ccall((:pl_exp_get_latest_frame_ex, :libpvcam), UInt16, (Int16, Ref{Ptr{Cvoid}}, Ref{FRAME_INFO}), hcam, frame, frame_info)
+function exp_get_latest_frame_ex(hcam::Int16, frame::Ref{Ptr{UInt16}}, frame_info::Ref{FRAME_INFO})
+    ccall((:pl_exp_get_latest_frame_ex, :libpvcam), UInt16, (Int16, Ref{Ptr{UInt16}}, Ref{FRAME_INFO}), hcam, frame, frame_info)
 end
 
-function pl_exp_get_oldest_frame(hcam::Int16, frame::Ref{Ptr{Cvoid}})
+function exp_get_oldest_frame(hcam::Int16, frame::Ref{Ptr{Cvoid}})
     ccall((:pl_exp_get_oldest_frame, :libpvcam), UInt16, (Int16, Ref{Ptr{Cvoid}}), hcam, frame)
 end
 
-function pl_exp_get_oldest_frame_ex(hcam::Int16, frame::Ref{Ptr{Cvoid}}, frame_info::Ref{FRAME_INFO})
+function exp_get_oldest_frame_ex(hcam::Int16, frame::Ref{Ptr{Cvoid}}, frame_info::Ref{FRAME_INFO})
     ccall((:pl_exp_get_oldest_frame_ex, :libpvcam), UInt16, (Int16, Ref{Ptr{Cvoid}}, Ref{FRAME_INFO}), hcam, frame, frame_info)
 end
 
-function pl_exp_unlock_oldest_frame(hcam::Int16)
+function exp_unlock_oldest_frame(hcam::Int16)
     ccall((:pl_exp_unlock_oldest_frame, :libpvcam), UInt16, (Int16,), hcam)
 end
 
-function pl_exp_stop_cont(hcam::Int16, cam_state::Int16)
+function exp_stop_cont(hcam::Int16, cam_state::Int16)
     ccall((:pl_exp_stop_cont, :libpvcam), UInt16, (Int16, Int16), hcam, cam_state)
 end
 
-function pl_exp_abort(hcam::Int16, cam_state::Int16)
+function exp_abort(hcam::Int16, cam_state::Int16)
     ccall((:pl_exp_abort, :libpvcam), UInt16, (Int16, Int16), hcam, cam_state)
 end
 
-function pl_exp_finish_seq(hcam::Int16, pixel_stream::Ref{Cvoid}, hbuf::Int16)
+function exp_finish_seq(hcam::Int16, pixel_stream::Ref{Cvoid}, hbuf::Int16)
     ccall((:pl_exp_finish_seq, :libpvcam), UInt16, (Int16, Ref{Cvoid}, Int16), hcam, pixel_stream, hbuf)
 end
 
-function pl_io_script_control(hcam::Int16, addr::UInt16, state::Cdouble, location::UInt32)
+function io_script_control(hcam::Int16, addr::UInt16, state::Cdouble, location::UInt32)
     ccall((:pl_io_script_control, :libpvcam), UInt16, (Int16, UInt16, Cdouble, UInt32), hcam, addr, state, location)
 end
 
-function pl_io_clear_script_control(hcam::Int16)
+function io_clear_script_control(hcam::Int16)
     ccall((:pl_io_clear_script_control, :libpvcam), UInt16, (Int16,), hcam)
 end
 
+function md_frame_decode(pDstFrame::Ref{md_frame}, pSrcBuf::Ref{Cvoid}, srcBufSize::UInt32)
+    ccall((:pl_md_frame_decode, :libpvcam), UInt16, (Ref{md_frame}, Ref{Cvoid}, UInt32), pDstFrame, pSrcBuf, srcBufSize)
+end
+
+function md_frame_recompose(pDstBuf::Ref{Cvoid}, offX::UInt16, offY::UInt16, dstWidth::UInt16, dstHeight::UInt16, pSrcFrame::Ref{md_frame})
+    ccall((:pl_md_frame_recompose, :libpvcam), UInt16, (Ref{Cvoid}, UInt16, UInt16, UInt16, UInt16, Ref{md_frame}), pDstBuf, offX, offY, dstWidth, dstHeight, pSrcFrame)
+end
+
+function md_create_frame_struct_cont(pFrame::Ref{Ptr{md_frame}}, roiCount::UInt16)
+    ccall((:pl_md_create_frame_struct_cont, :libpvcam), UInt16, (Ref{Ptr{md_frame}}, UInt16), pFrame, roiCount)
+end
+
+function md_create_frame_struct(pFrame::Ref{Ptr{md_frame}}, pSrcBuf::Ref{Cvoid}, srcBufSize::UInt32)
+    ccall((:pl_md_create_frame_struct, :libpvcam), UInt16, (Ref{Ptr{md_frame}}, Ref{Cvoid}, UInt32), pFrame, pSrcBuf, srcBufSize)
+end
+
+function md_release_frame_struct(pFrame::Ref{md_frame})
+    ccall((:pl_md_release_frame_struct, :libpvcam), UInt16, (Ref{md_frame},), pFrame)
+end
+
+function md_read_extended(pOutput::Ref{md_ext_item_collection}, pExtMdPtr::Ref{Cvoid}, extMdSize::UInt32)
+    ccall((:pl_md_read_extended, :libpvcam), UInt16, (Ref{md_ext_item_collection}, Ref{Cvoid}, UInt32), pOutput, pExtMdPtr, extMdSize)
+end
+
+#= DEPRECATED FUNCTIONS
 function pl_exp_init_seq()
     ccall((:pl_exp_init_seq, :libpvcam), UInt16, ())
 end
@@ -610,27 +635,5 @@ end
 function pl_cam_get_diags(hcam::Int16)
     ccall((:pl_cam_get_diags, :libpvcam), UInt16, (Int16,), hcam)
 end
+=#
 
-function pl_md_frame_decode(pDstFrame::Ref{md_frame}, pSrcBuf::Ref{Cvoid}, srcBufSize::UInt32)
-    ccall((:pl_md_frame_decode, :libpvcam), UInt16, (Ref{md_frame}, Ref{Cvoid}, UInt32), pDstFrame, pSrcBuf, srcBufSize)
-end
-
-function pl_md_frame_recompose(pDstBuf::Ref{Cvoid}, offX::UInt16, offY::UInt16, dstWidth::UInt16, dstHeight::UInt16, pSrcFrame::Ref{md_frame})
-    ccall((:pl_md_frame_recompose, :libpvcam), UInt16, (Ref{Cvoid}, UInt16, UInt16, UInt16, UInt16, Ref{md_frame}), pDstBuf, offX, offY, dstWidth, dstHeight, pSrcFrame)
-end
-
-function pl_md_create_frame_struct_cont(pFrame::Ref{Ptr{md_frame}}, roiCount::UInt16)
-    ccall((:pl_md_create_frame_struct_cont, :libpvcam), UInt16, (Ref{Ptr{md_frame}}, UInt16), pFrame, roiCount)
-end
-
-function pl_md_create_frame_struct(pFrame::Ref{Ptr{md_frame}}, pSrcBuf::Ref{Cvoid}, srcBufSize::UInt32)
-    ccall((:pl_md_create_frame_struct, :libpvcam), UInt16, (Ref{Ptr{md_frame}}, Ref{Cvoid}, UInt32), pFrame, pSrcBuf, srcBufSize)
-end
-
-function pl_md_release_frame_struct(pFrame::Ref{md_frame})
-    ccall((:pl_md_release_frame_struct, :libpvcam), UInt16, (Ref{md_frame},), pFrame)
-end
-
-function pl_md_read_extended(pOutput::Ref{md_ext_item_collection}, pExtMdPtr::Ref{Cvoid}, extMdSize::UInt32)
-    ccall((:pl_md_read_extended, :libpvcam), UInt16, (Ref{md_ext_item_collection}, Ref{Cvoid}, UInt32), pOutput, pExtMdPtr, extMdSize)
-end
