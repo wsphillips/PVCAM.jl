@@ -5,12 +5,15 @@ include("libpvcam/PL.jl")
 using .PL
 export PL
 
-export camera_name, open_camera, setup_cont, start_cont, stop_cont, latest_frame!, polled_cont! 
+export camera_name, open_camera, setup_cont, start_cont, stop_cont, latest_frame, polled_cont! 
 
 const CAMERA_NUMBER = 0
 const BUFFER_MODE = Int16(PL.CIRC_OVERWRITE)
+const CAMERA_NAME = Ref{String}()
+const CAMERA_HANDLE = Ref{Int16}(-1)
+const FRAME_OFFSET = Ref{Int64}(0)
 ROIS = [PL.rgn_type(0,1199,1,0,1199,1)]
-EXPOSURE_MODE = Int16(PL.TIMED_MODE)
+const EXPOSURE_MODE = Ref{Int16}(PL.TIMED_MODE)
 
 atexit() do
     PL.pvcam_uninit()
@@ -18,9 +21,8 @@ end
 
 function __init__()
     Bool(PL.pvcam_init()) || @error "Failed to initialized PVCAM"
-    global CAMERA_NAME = camera_name(CAMERA_NUMBER)
-    global CAMERA_HANDLE = open_camera(CAMERA_NAME)
-    global CONT_START_PTR = Ptr{UInt16}()
+    CAMERA_NAME[] = camera_name(CAMERA_NUMBER)
+    CAMERA_HANDLE[] = open_camera(CAMERA_NAME[])
 end
 
 function camera_name(cam_num::Integer)
@@ -43,7 +45,7 @@ function open_camera(camera_name::String)
     return camera_handle[]
 end
 
-function setup_cont(camera_handle = CAMERA_HANDLE, region_array = ROIS, exp_mode = EXPOSURE_MODE, exposure_time = 40)
+function setup_cont(camera_handle = CAMERA_HANDLE[], region_array = ROIS, exp_mode = EXPOSURE_MODE[], exposure_time = 40)
     exp_bytes = Ref{UInt32}()
     num_regions = UInt16(length(region_array))
     Bool(PL.exp_setup_cont(camera_handle, num_regions, region_array, exp_mode, UInt32(exposure_time),
@@ -65,7 +67,7 @@ function get_latest_frame_ptr(camera_h)
     return frame_address[]
 end
 
-function stop_cont(camera_h = CAMERA_HANDLE)
+function stop_cont(camera_h = CAMERA_HANDLE[])
     cam_state = Int16(PL.CCS_CLEAR)
     if Bool(PL.exp_stop_cont(camera_h, cam_state)) 
         println("Stopped continuous acquisition.")
@@ -74,22 +76,21 @@ function stop_cont(camera_h = CAMERA_HANDLE)
     end
 end
 
-function latest_frame!(camera_h = CAMERA_HANDLE, start_ptr = CONT_START_PTR)
+function latest_frame(buffer, camera_h = CAMERA_HANDLE[])
     current_ptr = get_latest_frame_ptr(camera_h)
+    start_ptr = pointer(buffer)
     start_idx = Int((current_ptr - start_ptr) / sizeof(UInt16)) + 1
-    stop_idx = start_idx + FRAME_OFFSET
+    stop_idx = start_idx + FRAME_OFFSET[]
     return start_idx:stop_idx
 end
 
-function polled_cont!(; camera_handle = CAMERA_HANDLE, regions = ROIS, exposure_mode = EXPOSURE_MODE, exposure_time = 40)
+function polled_cont!(; camera_handle = CAMERA_HANDLE[], regions = ROIS, exposure_mode = EXPOSURE_MODE[], exposure_time = 40)
     
-    exposure_bytes = setup_continuous(camera_handle, regions, exposure_mode, exposure_time)
+    exposure_bytes = setup_cont(camera_handle, regions, exposure_mode, exposure_time)
     circ_buffer_frames = 20
     circ_buffer = Vector{UInt16}(undef, Int((circ_buffer_frames * exposure_bytes) / sizeof(UInt16)))
-
-    global CONT_START_PTR = pointer(circ_buffer)
-    global FRAME_OFFSET = Int(exposure_bytes / sizeof(UInt16)) - 1
-    start_continuous(camera_handle, circ_buffer)
+    FRAME_OFFSET[] = Int(exposure_bytes / sizeof(UInt16)) - 1
+    start_cont(camera_handle, circ_buffer)
     return circ_buffer
 end
 
