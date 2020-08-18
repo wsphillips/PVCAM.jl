@@ -7,6 +7,7 @@ export PL
 
 export camera_name, open_camera, setup_cont, start_cont, stop_cont, latest_frame, polled_cont! 
 
+#FIXME: These could be cleaned up and aggregated into global struct types
 const CAMERA_NUMBER = 0 # default to first camera available
 const BUFFER_MODE = Int16(PL.CIRC_OVERWRITE) # this never changes--other modes aren't available in PVCAM
 const CAMERA_NAME = Ref{String}()
@@ -88,9 +89,10 @@ end
 
 function initialize_cont()
     polled_cont!()
-    sleep(0.5) # need to pause while we wait for acquisition to get rolling
+    sleep(0.5) # arbitrary length pause: we need to pause while we wait for acquisition to get rolling
                # otherwise we may get an error on get_latest_frame_ptr -> undefined result/segfault
-    retry(latest_frame, delays = fill(0.5, 10))()
+    retry(latest_frame, delays = fill(0.5, 10))() # similarly, continue to retry polling for the latest frame until
+                                                  # it returns successfully. Thereafter it should always return correctly.
 end
 
 end # module
