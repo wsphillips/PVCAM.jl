@@ -18,14 +18,11 @@ const EXPOSURE_MODE = Ref{Int16}(PL.TIMED_MODE)
 const CIRC_BUFFER = Ref{Vector{UInt16}}()
 const CB_START = Ref{Ptr{UInt16}}(0)
 
-atexit() do
-    PL.pvcam_uninit()
-end
-
 function __init__()
     Bool(PL.pvcam_init()) || @error "Failed to initialized PVCAM"
     CAMERA_NAME[] = camera_name(CAMERA_NUMBER)
     CAMERA_HANDLE[] = open_camera(CAMERA_NAME[])
+    atexit(PL.pvcam_uninit)
 end
 
 function camera_name(cam_num::Integer)
