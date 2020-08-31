@@ -60,7 +60,7 @@ end
 
 function start_cont(camera_handle, circ_buffer_size = length(CIRC_BUFFER[]) * sizeof(UInt16))
     PL.exp_start_cont(camera_handle, CIRC_BUFFER[], circ_buffer_size) || check_error()
-    return println("Continuous acquisition started...")
+    return @async println("Continuous acquisition started...")
 end
 
 function get_latest_frame_ptr(camera_h)
@@ -71,7 +71,7 @@ end
 
 function stop_cont(camera_h = CAMERA_HANDLE[])
     PL.exp_stop_cont(camera_h, PL.CCS_CLEAR) || check_error()
-    return println("Stopped continuous acquisition.")
+    return @async println("Stopped continuous acquisition.")
 end
 
 function latest_frame(camera_h = CAMERA_HANDLE[], start_ptr = CB_START[])
