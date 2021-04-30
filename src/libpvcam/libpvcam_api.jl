@@ -59,12 +59,12 @@ function error_message(err_code::Integer, msg)::Bool
     ccall((:pl_error_message, :libpvcam), UInt16, (Int16, Ref{UInt8}), err_code, msg)
 end
 
-function get_param(hcam::Integer, param_id::Integer, param_attribute::Integer, param_value::Ref{Cvoid})::Bool
-    ccall((:pl_get_param, :libpvcam), UInt16, (Int16, UInt32, Int16, Ref{Cvoid}), hcam, param_id, param_attribute, param_value)
+function get_param(hcam::Integer, param_id::Integer, param_attribute::Integer, param_value)::Bool
+    ccall((:pl_get_param, :libpvcam), UInt16, (Int16, UInt32, Int16, Ptr{Cvoid}), hcam, param_id, param_attribute, param_value)
 end
 
-function set_param(hcam::Integer, param_id::Integer, param_value::Ref{Cvoid})::Bool
-    ccall((:pl_set_param, :libpvcam), UInt16, (Int16, UInt32, Ref{Cvoid}), hcam, param_id, param_value)
+function set_param(hcam::Integer, param_id::Integer, param_value)::Bool
+    ccall((:pl_set_param, :libpvcam), UInt16, (Int16, UInt32, Ptr{Cvoid}), hcam, param_id, param_value)
 end
 
 function get_enum_param(hcam::Integer, param_id::Integer, index::Integer, value::Ref{Cint}, desc, length::Integer)::Bool

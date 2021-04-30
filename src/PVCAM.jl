@@ -51,12 +51,16 @@ function open_camera(camera_name::String)
     return camera_handle[]
 end
 
-function setup_cont(camera_handle = CAMERA_HANDLE[], region_array = FULL_FRAME, exp_mode = EXPOSURE_MODE[], exposure_time = 40)::Int64
+function setup_cont(camera_handle = CAMERA_HANDLE[], region_array = FULL_FRAME, exp_mode = EXPOSURE_MODE[], exposure_time = 40, muxed = 1)::Int64
+    muxed > 1 && (PL.set_param(camera_handle, PL.PARAM_LAST_MUXED_SIGNAL, Ref(muxed)) || check_error())
+    PL.set_param(camera_handle, PL.PARAM_CLEAR_MODE, Ref(Int32(PL.CLEAR_NEVER))) || check_error()
+    #PL.set_param(camera_handle, PL.PARAM_EXPOSE_OUT_MODE, Ref(Int32(PL.EXPOSE_OUT_ALL_ROWS))) || check_error()
     exp_bytes = Ref{UInt32}()
     num_regions = length(region_array)
     PL.exp_setup_cont(camera_handle, num_regions, region_array, exp_mode, exposure_time, exp_bytes, PL.CIRC_OVERWRITE) || check_error()
     return exp_bytes[]
 end
+
 
 function start_cont(camera_handle, circ_buffer_size = length(CIRC_BUFFER[]) * sizeof(UInt16))
     PL.exp_start_cont(camera_handle, CIRC_BUFFER[], circ_buffer_size) || check_error()
@@ -81,8 +85,8 @@ function latest_frame(camera_h = CAMERA_HANDLE[], start_ptr = CB_START[])
     return CIRC_BUFFER[][start_idx:stop_idx] #FIXME: find zero-copy solution
 end
 
-function polled_cont!(; camera_handle = CAMERA_HANDLE[], regions = FULL_FRAME, exposure_mode = EXPOSURE_MODE[], exposure_time = 40)
-    exposure_bytes = setup_cont(camera_handle, regions, exposure_mode, exposure_time)
+function polled_cont!(; camera_handle = CAMERA_HANDLE[], regions = FULL_FRAME, exposure_mode = EXPOSURE_MODE[], exposure_time = 40, muxed = 1)
+    exposure_bytes = setup_cont(camera_handle, regions, exposure_mode, exposure_time, UInt8(muxed))
     nframes = 20
     CIRC_BUFFER[] = Vector{UInt16}(undef, (nframes * exposure_bytes) ÷ sizeof(UInt16))
     FRAME_OFFSET[] = exposure_bytes ÷ sizeof(UInt16) - 1
